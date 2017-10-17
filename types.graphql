@@ -1,6 +1,5 @@
 type Course @model {
   club: String!
-  createdAt: DateTime!
   events: [Event!]! @relation(name: "EventCourse")
   holes: [Hole!]! @relation(name: "CourseHoles")
   id: ID! @isUnique
@@ -10,12 +9,12 @@ type Course @model {
   oldId: Int
   par: Int!
   scoringSessions: [ScoringSession!]! @relation(name: "ScoringSessionCourse")
+  createdAt: DateTime!
   updatedAt: DateTime!
 }
 
 type Event @model {
   course: Course @relation(name: "EventCourse")
-  createdAt: DateTime
   eventLeaderboards: [EventLeaderboard!]! @relation(name: "EventLeaderboards")
   id: ID! @isUnique
   liveScores: [LiveScore!]! @relation(name: "EventLiveScore")
@@ -28,11 +27,11 @@ type Event @model {
   startsAt: DateTime!
   status: String! @defaultValue(value: "planned")
   teamEvent: Boolean! @defaultValue(value: false)
-  updatedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type EventLeaderboard @model {
-  createdAt: DateTime
   event: Event @relation(name: "EventLeaderboards")
   id: ID! @isUnique
   position: Int! @defaultValue(value: 0)
@@ -42,36 +41,36 @@ type EventLeaderboard @model {
   totalEventCount: Int! @defaultValue(value: 0)
   totalEventPoints: Float! @defaultValue(value: 0.0)
   totalPosition: Int! @defaultValue(value: 0)
-  updatedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type File @model {
   contentType: String!
-  createdAt: DateTime
   id: ID! @isUnique
   name: String!
   season: Season @relation(name: "SeasonPhoto")
   secret: String! @isUnique
   size: Int!
-  updatedAt: DateTime
   url: String! @isUnique
   user: User @relation(name: "UserPhoto")
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Hole @model {
   course: Course @relation(name: "CourseHoles")
-  createdAt: DateTime!
   id: ID! @isUnique
   index: Int!
   liveScores: [LiveScore!]! @relation(name: "LiveScoreHole")
   number: Int!
   par: Int!
+  createdAt: DateTime!
   updatedAt: DateTime!
 }
 
 type LiveScore @model {
   beers: Int
-  createdAt: DateTime!
   event: Event @relation(name: "EventLiveScore")
   extraStrokes: Int! @defaultValue(value: 0)
   hole: Hole @relation(name: "LiveScoreHole")
@@ -82,36 +81,36 @@ type LiveScore @model {
   scoringSession: ScoringSession @relation(name: "ScoringSessionLiveScore")
   scoringTeam: ScoringTeam @relation(name: "ScoringTeamLiveScores")
   strokes: Int!
+  createdAt: DateTime!
   updatedAt: DateTime!
 }
 
 type Score @model {
   beers: Int! @defaultValue(value: 0)
-  createdAt: DateTime
   event: Event @relation(name: "EventScore")
   eventLeaderboard: EventLeaderboard @relation(name: "ScoreEventLeaderboard")
   eventPoints: Int! @defaultValue(value: 0)
   id: ID! @isUnique
   kr: Int! @defaultValue(value: 0)
   oldId: Int
-  updatedAt: DateTime
   user: User @relation(name: "UserScore")
   value: Int! @defaultValue(value: 0)
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type ScoringPlayer @model {
-  createdAt: DateTime!
   extraStrokes: Int!
   id: ID! @isUnique
   liveScores: [LiveScore!]! @relation(name: "ScoringPlayerLiveScores")
   scoringSession: ScoringSession @relation(name: "ScoringPlayerScoringSession")
-  updatedAt: DateTime!
   user: User @relation(name: "ScoringPlayerUser")
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type ScoringSession @model {
   course: Course @relation(name: "ScoringSessionCourse")
-  createdAt: DateTime!
   currentHole: Int! @defaultValue(value: 1)
   event: Event @relation(name: "ScoringSessionEvent")
   id: ID! @isUnique
@@ -120,34 +119,34 @@ type ScoringSession @model {
   scoringPlayers: [ScoringPlayer!]! @relation(name: "ScoringPlayerScoringSession")
   scoringTeams: [ScoringTeam!]! @relation(name: "ScoringTeamScoringSession")
   status: String! @defaultValue(value: "live")
+  createdAt: DateTime!
   updatedAt: DateTime!
 }
 
 type ScoringTeam @model {
-  createdAt: DateTime!
   extraStrokes: Int!
   id: ID! @isUnique
   liveScores: [LiveScore!]! @relation(name: "ScoringTeamLiveScores")
   scoringSession: ScoringSession @relation(name: "ScoringTeamScoringSession")
-  updatedAt: DateTime!
   users: [User!]! @relation(name: "ScoringTeamUser")
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type Season @model {
   closed: Boolean! @defaultValue(value: false)
-  createdAt: DateTime
   events: [Event!]! @relation(name: "SeasonEvent")
   id: ID! @isUnique
   name: String!
   oldId: Int
   photo: File @relation(name: "SeasonPhoto")
   seasonLeaderboards: [SeasonLeaderboard!]! @relation(name: "SeasonLeaderboards")
-  updatedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type SeasonLeaderboard @model {
   averagePoints: Float! @defaultValue(value: 0.0)
-  createdAt: DateTime
   eventCount: Int! @defaultValue(value: 0)
   id: ID! @isUnique
   position: Int! @defaultValue(value: 0)
@@ -157,12 +156,12 @@ type SeasonLeaderboard @model {
   totalBeers: Int! @defaultValue(value: 0)
   totalKr: Int! @defaultValue(value: 0)
   totalPoints: Float! @defaultValue(value: 0.0)
-  updatedAt: DateTime
   user: User @relation(name: "UserSeasonLeaderboard")
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }
 
 type User @model {
-  createdAt: DateTime
   email: String @isUnique
   firstName: String!
   id: ID! @isUnique
@@ -175,5 +174,6 @@ type User @model {
   scoringSession: ScoringSession @relation(name: "ScoringSessionScorer")
   scoringTeams: [ScoringTeam!]! @relation(name: "ScoringTeamUser")
   seasonLeaderboards: [SeasonLeaderboard!]! @relation(name: "UserSeasonLeaderboard")
-  updatedAt: DateTime
+  createdAt: DateTime!
+  updatedAt: DateTime!
 }

@@ -1,4 +1,6 @@
 types: ./types.graphql
+
+
 functions:
   signup:
     type: resolver
@@ -17,78 +19,11 @@ functions:
     schema: src/email-password/loggedInUser.graphql
     handler:
       code: src/email-password/loggedInUser.js
+
+
 permissions:
-- operation: Course.read
-- operation: Course.create
-- operation: Course.update
-- operation: Course.delete
-- operation: Event.read
-- operation: Event.create
-- operation: Event.update
-- operation: Event.delete
-  authenticated: true
-- operation: EventLeaderboard.read
-- operation: EventLeaderboard.create
-- operation: EventLeaderboard.update
-- operation: EventLeaderboard.delete
-- operation: File.read
-- operation: Hole.read
-- operation: Hole.create
-- operation: Hole.update
-- operation: Hole.delete
-- operation: LiveScore.read
-- operation: LiveScore.create
-- operation: LiveScore.update
-- operation: LiveScore.delete
-- operation: Score.read
-- operation: Score.create
-- operation: Score.update
-- operation: Score.delete
-- operation: ScoringPlayer.read
-- operation: ScoringPlayer.create
-- operation: ScoringPlayer.update
-- operation: ScoringPlayer.delete
-- operation: ScoringSession.read
-- operation: ScoringSession.create
-- operation: ScoringSession.update
-- operation: ScoringSession.delete
-- operation: ScoringTeam.read
-- operation: ScoringTeam.create
-- operation: ScoringTeam.update
-- operation: ScoringTeam.delete
-- operation: Season.read
-- operation: Season.create
-- operation: Season.update
-- operation: Season.delete
-- operation: SeasonLeaderboard.read
-- operation: SeasonLeaderboard.create
-- operation: SeasonLeaderboard.update
-- operation: SeasonLeaderboard.delete
-- operation: User.create
-- operation: User.read
-  authenticated: true
-- operation: CourseHoles.*
-- operation: EventCourse.*
-- operation: EventLeaderboards.*
-- operation: EventLiveScore.*
-- operation: EventScore.*
-- operation: LiveScoreHole.*
-- operation: ScoreEventLeaderboard.*
-- operation: ScoringPlayerLiveScores.*
-- operation: ScoringPlayerScoringSession.*
-- operation: ScoringPlayerUser.*
-- operation: ScoringSessionCourse.*
-- operation: ScoringSessionEvent.*
-- operation: ScoringSessionLiveScore.*
-- operation: ScoringSessionScorer.*
-- operation: ScoringTeamLiveScores.*
-- operation: ScoringTeamScoringSession.*
-- operation: ScoringTeamUser.*
-- operation: SeasonEvent.*
-- operation: SeasonLeaderboards.*
-- operation: SeasonPhoto.*
-- operation: UserPhoto.*
-- operation: UserScore.*
-- operation: UserSeasonLeaderboard.*
+- operation: "*"
+
+
 rootTokens:
 - admin

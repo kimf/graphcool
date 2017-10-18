@@ -18,10 +18,12 @@ function getGraphcoolUser(api, email) {
     })
 }
 
-function createGraphcoolUser(api, email, passwordHash) {
+function createGraphcoolUser(api, firstName, lastName, email, passwordHash) {
   return api.request(`
     mutation {
       createUser(
+        firstName: "${firstName}",
+        lastName: "${lastName}",
         email: "${email}",
         password: "${passwordHash}"
       ) {
@@ -33,14 +35,16 @@ function createGraphcoolUser(api, email, passwordHash) {
     })
 }
 
-module.exports = function(event) {
+module.exports = function (event) {
   if (!event.context.graphcool.pat) {
     console.log('Please provide a valid root token!')
-    return { error: 'Email Signup not configured correctly.'}
+    return { error: 'Email Signup not configured correctly.' }
   }
 
   const email = event.data.email
   const password = event.data.password
+  const firstName = event.data.firstName
+  const lastName = event.data.lastName
   const graphcool = fromEvent(event)
   const api = graphcool.api('simple/v1')
   const SALT_ROUNDS = 10
@@ -50,8 +54,9 @@ module.exports = function(event) {
     return getGraphcoolUser(api, email)
       .then(graphcoolUser => {
         if (graphcoolUser === null) {
+          console.log('graphCoolUser === null')
           return bcrypt.hash(password, salt)
-            .then(hash => createGraphcoolUser(api, email, hash))
+            .then(hash => createGraphcoolUser(api, firstName, lastName, email, hash))
         } else {
           return Promise.reject("Email already in use")
         }
@@ -59,8 +64,8 @@ module.exports = function(event) {
       .then(graphcoolUserId => {
         return graphcool.generateAuthToken(graphcoolUserId, 'User')
           .then(token => {
-            return { data: {id: graphcoolUserId, token}}
-        })
+            return { data: { id: graphcoolUserId, token } }
+          })
       })
       .catch((error) => {
         console.log(error)

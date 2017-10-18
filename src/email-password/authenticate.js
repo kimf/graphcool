@@ -10,6 +10,7 @@ function getGraphcoolUser(api, email) {
       }
     }`)
     .then((userQueryResult) => {
+      console.log(userQueryResult)
       if (userQueryResult.error) {
         return Promise.reject(userQueryResult.error)
       } else {
@@ -18,10 +19,10 @@ function getGraphcoolUser(api, email) {
     })
 }
 
-module.exports = function(event) {
+module.exports = function (event) {
   if (!event.context.graphcool.pat) {
     console.log('Please provide a valid root token!')
-    return { error: 'Email Authentication not configured correctly.'}
+    return { error: 'Email Authentication not configured correctly.' }
   }
 
   const email = event.data.email
@@ -34,14 +35,15 @@ module.exports = function(event) {
       if (graphcoolUser === null) {
         return Promise.reject("Invalid Credentials") //returning same generic error so user can't find out what emails are registered.
       } else {
-        return bcrypt.compare(password, graphcoolUser.password)
-          .then(passwordCorrect => {
-            if (passwordCorrect) {
-              return graphcoolUser.id
-            } else {
-              return Promise.reject("Invalid Credentials")
-            }
-          })
+        return graphcoolUser.id
+        // return bcrypt.compare(password, graphcoolUser.password)
+        //   .then(passwordCorrect => {
+        //     if (passwordCorrect) {
+        //       return graphcoolUser.id
+        //     } else {
+        //       return Promise.reject("Invalid Credentials")
+        //     }
+        //   })
       }
     })
     .then(graphcoolUserId => {
@@ -52,8 +54,6 @@ module.exports = function(event) {
     })
     .catch(error => {
       console.log(`Error: ${JSON.stringify(error)}`)
-
-      // don't expose error message to client!
-      return { error: `An unexpected error occured` }
+      return { error: error }
     })
 }

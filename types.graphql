@@ -162,6 +162,7 @@ type SeasonLeaderboard @model {
 }
 
 type User @model {
+  admin: Boolean
   email: String @isUnique
   firstName: String!
   id: ID! @isUnique

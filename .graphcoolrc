@@ -1,3 +1,4 @@
 targets:
   dev: local/cj94a1ew6002l0198pmwbruv5
   default: dev
+  prod: shared-eu-west-1/cj9637vht4zpo0142ut1o31tv

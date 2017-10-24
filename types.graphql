@@ -17,7 +17,6 @@ type Event @model {
   course: Course @relation(name: "EventCourse")
   eventLeaderboards: [EventLeaderboard!]! @relation(name: "EventLeaderboards")
   id: ID! @isUnique
-  liveScores: [LiveScore!]! @relation(name: "EventLiveScore")
   oldCourseName: String
   oldId: Int
   scores: [Score!]! @relation(name: "EventScore")
@@ -45,19 +44,6 @@ type EventLeaderboard @model {
   updatedAt: DateTime!
 }
 
-type File @model {
-  contentType: String!
-  id: ID! @isUnique
-  name: String!
-  season: Season @relation(name: "SeasonPhoto")
-  secret: String! @isUnique
-  size: Int!
-  url: String! @isUnique
-  user: User @relation(name: "UserPhoto")
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
 type Hole @model {
   course: Course @relation(name: "CourseHoles")
   id: ID! @isUnique
@@ -71,7 +57,6 @@ type Hole @model {
 
 type LiveScore @model {
   beers: Int
-  event: Event @relation(name: "EventLiveScore")
   extraStrokes: Int! @defaultValue(value: 0)
   hole: Hole @relation(name: "LiveScoreHole")
   id: ID! @isUnique
@@ -111,6 +96,8 @@ type ScoringPlayer @model {
 
 type ScoringSession @model {
   course: Course @relation(name: "ScoringSessionCourse")
+  teamEvent: Boolean! @defaultValue(value: false)
+  scoringType: String! @defaultValue(value: "strokes")
   currentHole: Int! @defaultValue(value: 1)
   event: Event @relation(name: "ScoringSessionEvent")
   id: ID! @isUnique
@@ -121,6 +108,7 @@ type ScoringSession @model {
   status: String! @defaultValue(value: "live")
   createdAt: DateTime!
   updatedAt: DateTime!
+  startsAt: DateTime
 }
 
 type ScoringTeam @model {
@@ -139,7 +127,7 @@ type Season @model {
   id: ID! @isUnique
   name: String!
   oldId: Int
-  photo: File @relation(name: "SeasonPhoto")
+  photo: String
   seasonLeaderboards: [SeasonLeaderboard!]! @relation(name: "SeasonLeaderboards")
   createdAt: DateTime!
   updatedAt: DateTime!
@@ -169,7 +157,7 @@ type User @model {
   lastName: String!
   oldId: Int
   password: String
-  photo: File @relation(name: "UserPhoto")
+  photo: String
   scores: [Score!]! @relation(name: "UserScore")
   scoringPlayers: [ScoringPlayer!]! @relation(name: "ScoringPlayerUser")
   scoringSession: ScoringSession @relation(name: "ScoringSessionScorer")
